@@ -279,6 +279,7 @@ INSTALLED_APPS = (
     "allauth.socialaccount.providers.google",
     "allauth.socialaccount.providers.gitlab",
     "allauth.socialaccount.providers.keycloak",
+    "allauth.socialaccount.providers.discord",
     "notifications",
     "graphene_django",
     "django_ace",
