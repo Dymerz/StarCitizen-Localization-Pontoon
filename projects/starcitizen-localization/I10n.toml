@@ -1,0 +1,12 @@
+basepath = "."
+
+locales = [
+    "fr",
+    # "de",
+    # "it",
+    # "es"
+]
+
+[[paths]]
+    reference = "locales/en/*.ini"
+    l10n = "locales{locale}/*.ini"
