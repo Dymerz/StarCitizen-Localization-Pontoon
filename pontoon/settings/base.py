@@ -775,7 +775,7 @@ else:
 VIEW_CACHE_TIMEOUT = 60 * 60 * 24  # 1 day
 
 # Site ID is used by Django's Sites framework.
-SITE_ID = 2
+SITE_ID = 1
 
 # Media and templates.
 
@@ -1129,6 +1129,13 @@ SOCIALACCOUNT_PROVIDERS = {
         "KEYCLOAK_URL": os.environ.get("KEYCLOAK_URL"),
         "KEYCLOAK_REALM": os.environ.get("KEYCLOAK_REALM"),
     },
+    "discord": {
+         'SCOPE': [
+            'email',
+            'identify',
+            'guilds'
+        ]
+    }
 }
 
 # Configuration of `django-notifications-hq` app
