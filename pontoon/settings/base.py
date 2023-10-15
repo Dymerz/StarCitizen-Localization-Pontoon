@@ -670,7 +670,7 @@ else:
     }
 
 # Site ID is used by Django's Sites framework.
-SITE_ID = 1
+SITE_ID = 2
 
 # Media and templates.
 
@@ -980,6 +980,10 @@ GOOGLE_SECRET_KEY = os.environ.get("GOOGLE_SECRET_KEY")
 # Keycloak Accounts
 KEYCLOAK_CLIENT_ID = os.environ.get("KEYCLOAK_CLIENT_ID")
 KEYCLOAK_CLIENT_SECRET = os.environ.get("KEYCLOAK_CLIENT_SECRET")
+
+# Discord Accounts
+DISCORD_CLIENT_ID = os.environ.get("DISCORD_CLIENT_ID")
+DISCORD_SECRET_KEY = os.environ.get("DISCORD_SECRET_KEY")
 
 # All settings related to the AllAuth
 SOCIALACCOUNT_PROVIDERS = {
