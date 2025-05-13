@@ -233,7 +233,11 @@ def update_changed_resources(
             if not lc_translations and not isfile(target_path):
                 continue
             try:
-                res = parse_resource(ref_path)
+                # convert the ref_path file from utf-8 bom to utf-8
+                with open(ref_path, "r", encoding="latin-1") as file:
+                    ref_content = file.read()
+
+                res = parse_resource(input=Format.properties, source=ref_content)
                 set_translations(locale, lc_translations, res)
                 makedirs(dirname(target_path), exist_ok=True)
                 with open(target_path, "w", encoding="utf-8") as file:
