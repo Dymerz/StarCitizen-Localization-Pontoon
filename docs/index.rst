@@ -9,6 +9,7 @@ It can handle any project that uses one of the supported file formats:
 - .ftl (Fluent)
 - .inc
 - .ini
+- .ini.kv (Key-value INI with UTF-8 BOM support)
 - .json (WebExtensions)
 - .json (key-value)
 - .po (Gettext)

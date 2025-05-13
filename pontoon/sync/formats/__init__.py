@@ -7,6 +7,7 @@ from os.path import basename, splitext
 
 from pontoon.sync.formats import (
     ftl,
+    ini_kv,
     json_extensions,
     json_keyvalue,
     po,
@@ -24,7 +25,8 @@ _SUPPORTED_FORMAT_PARSERS = {
     "*.dtd": silme.parse_dtd,
     "*.ftl": ftl.parse,
     "*.inc": silme.parse_inc,
-    "*.ini": silme.parse_ini,
+    # "*.ini": silme.parse_ini,
+    "*.ini": ini_kv.parse,  # Custom INI parser that handles key/value pairs with UTF-8 BOM
     "*messages.json": json_extensions.parse,
     "*.json": json_keyvalue.parse,
     "*.po": po.parse,
