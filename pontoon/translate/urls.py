@@ -4,7 +4,7 @@ from django.views.generic import RedirectView
 from . import views
 
 
-LOCALE_PART = r"(?P<locale>[A-Za-z0-9\-\@\.]+)"
+LOCALE_PART = r"(?P<locale>[A-Za-z0-9\-\@\.\_\(\)]+)"
 PROJECT_PART = r"(?P<project>[\w-]+)"
 RESOURCE_PART = r"(?P<resource>.+)"
 

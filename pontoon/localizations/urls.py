@@ -84,13 +84,13 @@ urlpatterns = [
     ),
     # AJAX view: Project info
     re_path(
-        r"^[A-Za-z0-9\-\@\.]+/(?P<slug>[\w-]+)/ajax/project-info/$",
+        r"^[A-Za-z0-9\-\@\.\_\(\)]+/(?P<slug>[\w-]+)/ajax/project-info/$",
         projects_views.ajax_info,
         name="pontoon.localizations.ajax.project-info",
     ),
     # AJAX view: Team info
     re_path(
-        r"^(?P<locale>[A-Za-z0-9\-\@\.]+)/[\w-]+/ajax/team-info/$",
+        r"^(?P<locale>[A-Za-z0-9\-\@\.\_\(\)]+)/[\w-]+/ajax/team-info/$",
         teams_views.ajax_info,
         name="pontoon.localizations.ajax.team-info",
     ),

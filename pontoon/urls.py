@@ -8,7 +8,7 @@ from pontoon.teams.views import team
 
 
 class LocaleConverter(StringConverter):
-    regex = r"[A-Za-z0-9\-\@\.]+"
+    regex = r"[A-Za-z0-9\-\@\.\_\(\)]+"
 
 
 register_converter(LocaleConverter, "locale")
