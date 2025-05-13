@@ -42,7 +42,7 @@ def open_utf8_bom_aware(path, mode="r", **kwargs):
                 kwargs['encoding'] = 'utf-8-sig'
                 kwargs['errors'] = 'ignore'
                 return open(path, mode, **kwargs)
-            except Exception as e:
+            except Exception:
                 # If all else fails, try binary read + manual decode
                 with open(path, 'rb') as f:
                     content = f.read()
@@ -58,9 +58,9 @@ def open_utf8_bom_aware(path, mode="r", **kwargs):
                             try:
                                 decoded = content.decode(encoding, errors='replace')
                                 return StringIO(decoded)
-                            except:
+                            except Exception:
                                 continue
-                    except:
+                    except Exception:
                         # Final fallback - return as much as we can
                         return StringIO(str(content)[2:-1])  # strip b'...'
 

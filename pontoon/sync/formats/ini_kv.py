@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import configparser
 import re
+
 from io import StringIO
 
 from .common import ParseError, VCSTranslation, open_utf8_bom_aware
