@@ -39,12 +39,14 @@ def parse(path: str):
                 # Read as binary first
                 raw_content = binary_file.read()
                 # Skip BOM if present
-                if raw_content.startswith(b'\xef\xbb\xbf'):
+                if raw_content.startswith(b"\xef\xbb\xbf"):
                     raw_content = raw_content[3:]
                 # Try to decode with replacement for invalid chars
-                content = raw_content.decode('utf-8', errors='replace')
+                content = raw_content.decode("utf-8", errors="replace")
         except Exception as fallback_err:
-            raise ParseError(f"Failed to parse {path}: {err} (fallback error: {fallback_err})")
+            raise ParseError(
+                f"Failed to parse {path}: {err} (fallback error: {fallback_err})"
+            )
 
     # Extract all key/value pairs, ignoring section headers
     translations: list[VCSTranslation] = []
@@ -82,7 +84,7 @@ def parse(path: str):
     except (configparser.Error, ValueError):
         # Use regex to find all key=value pairs outside of section headers
         # The pattern now also handles potential malformed content better
-        kv_pattern = re.compile(r'^([^[\]#][^=\n]*?)=(.*)$', re.MULTILINE)
+        kv_pattern = re.compile(r"^([^[\]#][^=\n]*?)=(.*)$", re.MULTILINE)
 
         for match in kv_pattern.finditer(content):
             try:

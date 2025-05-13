@@ -21,42 +21,43 @@ def open_utf8_bom_aware(path, mode="r", **kwargs):
         A file object with the BOM handled transparently
     """
     # Return binary mode as is
-    if 'b' in mode:
+    if "b" in mode:
         return open(path, mode, **kwargs)
 
     # For text mode, try multiple encoding approaches in sequence
     # First: utf-8-sig with replacement of invalid chars
     try:
-        kwargs.setdefault('encoding', 'utf-8-sig')
-        kwargs.setdefault('errors', 'replace')
+        kwargs.setdefault("encoding", "utf-8-sig")
+        kwargs.setdefault("errors", "replace")
         return open(path, mode, **kwargs)
     except UnicodeDecodeError:
         # Second attempt: try Latin-1 (which never fails as it maps all byte values)
         try:
-            kwargs['encoding'] = 'latin-1'
-            kwargs['errors'] = 'replace'
+            kwargs["encoding"] = "latin-1"
+            kwargs["errors"] = "replace"
             return open(path, mode, **kwargs)
         except Exception:
             # Last resort: ignore all problematic characters
             try:
-                kwargs['encoding'] = 'utf-8-sig'
-                kwargs['errors'] = 'ignore'
+                kwargs["encoding"] = "utf-8-sig"
+                kwargs["errors"] = "ignore"
                 return open(path, mode, **kwargs)
             except Exception:
                 # If all else fails, try binary read + manual decode
-                with open(path, 'rb') as f:
+                with open(path, "rb") as f:
                     content = f.read()
                     # Skip BOM if present
-                    if content.startswith(b'\xef\xbb\xbf'):
+                    if content.startswith(b"\xef\xbb\xbf"):
                         content = content[3:]
 
                     # We'll wrap the decoded content in a StringIO for file-like access
                     from io import StringIO
+
                     try:
                         # Try to decode with several methods
-                        for encoding in ['utf-8', 'latin-1', 'cp1252']:
+                        for encoding in ["utf-8", "latin-1", "cp1252"]:
                             try:
-                                decoded = content.decode(encoding, errors='replace')
+                                decoded = content.decode(encoding, errors="replace")
                                 return StringIO(decoded)
                             except Exception:
                                 continue

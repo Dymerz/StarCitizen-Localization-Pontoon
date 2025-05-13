@@ -28,12 +28,15 @@ key4=value4
 """
 
 # Sample INI file with UTF-8 BOM
-BASE_INI_WITH_BOM = b'\xef\xbb\xbf' + """
+BASE_INI_WITH_BOM = (
+    b"\xef\xbb\xbf"
+    + """
 ; This is a sample INI file with UTF-8 BOM
 [Section1]
 key1=value1
 key2=value2
-""".encode('utf-8')
+""".encode("utf-8")
+)
 
 
 class INIKVTests(FormatTestsMixin, TestCase):
@@ -46,7 +49,7 @@ class INIKVTests(FormatTestsMixin, TestCase):
         super().setUp()
         # Create a temporary file for testing
         fd, path = tempfile.mkstemp()
-        self.tempfile = os.fdopen(fd, 'w+b')
+        self.tempfile = os.fdopen(fd, "w+b")
         self.tempfile_path = path
 
     def tearDown(self):
