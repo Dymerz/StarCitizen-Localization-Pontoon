@@ -34,14 +34,18 @@ COPY --from=ghcr.io/astral-sh/uv:0.5.31 /uv /bin/uv
 
 WORKDIR /app
 
-# Install Pontoon Python requirements
+# Copy requirements files first for compilation
 COPY requirements/* /app/requirements/
+COPY docker/compile_requirements.sh ./docker/compile_requirements.sh
+RUN chmod +x ./docker/compile_requirements.sh && \
+  ./docker/compile_requirements.sh
+
+# Install the compiled requirements
 RUN uv pip install --system -r requirements/default.txt -r requirements/dev.txt -r requirements/test.txt -r requirements/lint.txt
 
 # Create the app user
 RUN groupadd -r --gid=${GROUP_ID} pontoon && useradd --uid=${USER_ID} --no-log-init -r -m -g pontoon pontoon
 RUN chown -R pontoon:pontoon /app
-USER pontoon
 
 # Set up Node.js environment variables
 ENV YUGLIFY_BINARY /app/node_modules/.bin/yuglify
@@ -63,9 +67,24 @@ COPY --chown=pontoon:pontoon . /app/
 # Install any missing workspace dependencies with legacy peer deps
 RUN npm install --include=dev --workspaces --if-present --legacy-peer-deps
 
+# Set up server environment for production
+COPY docker/config/server.env.template ./docker/config/server.env.template
+RUN sed -e "s/#SITE_URL#/http:\/\/localhost:8000/g" \
+  ./docker/config/server.env.template > ./docker/config/server.env
+
 # Build the project
 RUN npm run build:prod
 RUN python manage.py collectstatic
 
+RUN chmod -R 755 /app
+
+COPY --chown=pontoon:pontoon ssh /home/pontoon/.ssh
+RUN chmod 700 /home/pontoon/.ssh && \
+  chmod 600 /home/pontoon/.ssh/* && \
+  ssh-keyscan github.com >> /home/pontoon/.ssh/known_hosts
+
+USER pontoon
+
 STOPSIGNAL SIGINT
+
 CMD ["/app/docker/server_run.sh"]

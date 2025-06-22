@@ -26,5 +26,18 @@ duplicate_locale('pt-BR', 'portuguese_(brazil)');
 duplicate_locale('es-ES', 'spanish_(spain)');
 " | python manage.py shell
 
-echo ">>> Starting local server"
-exec python manage.py runserver 0.0.0.0:8000
+# If we're in production mode, make sure static files are collected
+if [ "$DJANGO_DEBUG" = "False" ]; then
+  echo ">>> Setting up for production mode"
+  echo ">>> Collecting static files"
+  python manage.py collectstatic --noinput --clear
+
+  # Make sure we're using the right settings
+  export DJANGO_SETTINGS_MODULE=${DJANGO_SETTINGS_MODULE:-pontoon.settings}
+
+  echo ">>> Starting Gunicorn server"
+  exec gunicorn pontoon.wsgi:application --bind 0.0.0.0:8000 --workers 3 --timeout 120
+else
+  echo ">>> Starting local development server"
+  exec python manage.py runserver 0.0.0.0:8000
+fi
