@@ -16,6 +16,7 @@ dist/
 node_modules/
 tmp/
 venv/
+Lib/site-packages/
 
 /docker/config/server.env
 /docs/_build
