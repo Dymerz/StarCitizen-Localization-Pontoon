@@ -146,7 +146,7 @@ def test_remove_entity():
             project, False, locale_map, checkouts, paths, [], {"c.ftl"}, set(), now
         )
         with open(join(repo.checkout_path, "fr-Test", "c.ftl")) as file:
-            assert file.read() == dedent(
+            assert file.read() == "\ufeff" + dedent(
                 """\
                 key-0 = Translation 0
                 key-2 = Translation 2
@@ -226,7 +226,7 @@ def test_add_translation():
             project, False, locale_map, checkouts, paths, db_changes, set(), set(), now
         )
         with open(join(repo.checkout_path, "fr-Test", "c.ftl")) as file:
-            assert file.read() == dedent(
+            assert file.read() == "\ufeff" + dedent(
                 """\
                 key-0 = Translation 0
                 key-1 = Translation 1

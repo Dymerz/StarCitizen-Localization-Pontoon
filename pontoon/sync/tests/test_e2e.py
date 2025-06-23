@@ -109,12 +109,12 @@ def test_end_to_end():
         with open(join(repo_tgt.checkout_path, "de-Test", "c.ftl")) as file:
             assert (
                 file.read()
-                == "key-0 = New translation de 0\n# New entry comment\nkey-2 = New translation de 2\n"
+                == "\ufeff" + "key-0 = New translation de 0\n# New entry comment\nkey-2 = New translation de 2\n"
             )
         with open(join(repo_tgt.checkout_path, "fr-Test", "c.ftl")) as file:
             assert (
                 file.read()
-                == "key-0 = New translation fr 0\n# New entry comment\nkey-2 = New translation fr 2\n"
+                == "\ufeff" + "key-0 = New translation fr 0\n# New entry comment\nkey-2 = New translation fr 2\n"
             )
         commit_msg: str = mock_vcs._calls[4][1][1]
         assert mock_vcs._calls == [
@@ -228,7 +228,7 @@ def test_translation_before_source():
 
         # Test -- New a0 translation is picked up, added a1 is dropped
         with open(join(repo_tgt.checkout_path, "de-Test", "a.ftl")) as file:
-            assert file.read() == "a0 = New translation 0\n"
+            assert file.read() == "\ufeff" + "a0 = New translation 0\n"
 
 
 @pytest.mark.django_db
@@ -340,7 +340,7 @@ def test_fuzzy():
             "Translation 3",
         }
         with open(join(repo.checkout_path, "fr-Test", "res.po")) as file:
-            assert re.sub(r'^".*"\n', "", file.read(), flags=re.MULTILINE) == dedent(
+            assert re.sub(r'^".*"\n', "", file.read(), flags=re.MULTILINE) == "\ufeff" + dedent(
                 """\
                 #
                 msgid ""
@@ -451,7 +451,7 @@ def test_webext():
         # Test
         sync_project_task(project.pk)
         with open(join(repo_tgt.checkout_path, "de-Test", "messages.json")) as file:
-            assert file.read() == dedent("""\
+            assert file.read() == "\ufeff" + dedent("""\
             {
               "plain": {
                 "message": "Translation"
