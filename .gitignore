@@ -17,6 +17,7 @@ node_modules/
 tmp/
 venv/
 Lib/site-packages/
+ssh/
 
 /docker/config/server.env
 /docs/_build
