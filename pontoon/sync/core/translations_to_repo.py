@@ -240,7 +240,7 @@ def update_changed_resources(
                 res = parse_resource(input=Format.properties, source=ref_content)
                 set_translations(locale, lc_translations, res)
                 makedirs(dirname(target_path), exist_ok=True)
-                with open(target_path, "w", encoding="utf-8") as file:
+                with open(target_path, "w", encoding="utf-8-sig") as file:
                     for line in serialize_resource(res):
                         file.write(line)
                 updated_locales.add(locale)
