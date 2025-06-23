@@ -78,6 +78,9 @@ RUN python manage.py collectstatic
 
 RUN chmod -R 755 /app
 
+# Update permission to allow Pontoon to read the static files
+RUN chmod 764 /app/static/*.js.gz
+
 COPY --chown=pontoon:pontoon ssh /home/pontoon/.ssh
 RUN chmod 700 /home/pontoon/.ssh && \
   chmod 600 /home/pontoon/.ssh/* && \
