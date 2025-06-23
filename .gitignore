@@ -18,6 +18,7 @@ tmp/
 venv/
 Lib/site-packages/
 ssh/
+Scripts/
 
 /docker/config/server.env
 /docs/_build
@@ -26,3 +27,4 @@ ssh/
 /media/
 /pontoon/coverage.xml
 /static/
+pyvenv.cfg
