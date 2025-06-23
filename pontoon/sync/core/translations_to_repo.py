@@ -208,7 +208,8 @@ def update_changed_resources(
             lc_str = ", ".join(locale.code for locale in locales_)
             log.info(f"{log_scope} Updating locales: {lc_str}")
         else:
-            log.info(f"{log_scope} Updating all locales")
+            all_lc_str = ", ".join(locale.code for locale in locales)
+            log.info(f"{log_scope} Updating all locales: {all_lc_str}")
 
         translations = (
             Translation.objects.filter(
@@ -231,8 +232,10 @@ def update_changed_resources(
             lc_translations = [tx for tx in translations if tx.locale_id == locale.pk]
             target_path = paths.format_target_path(target, locale.code)
             if not lc_translations and not isfile(target_path):
+                log.info(f"{lc_scope} No translations and no file to update, skipping.")
                 continue
             try:
+                log.info(f"{lc_scope} Writing translations to {target_path}")
                 # convert the ref_path file from utf-8 bom to utf-8
                 with open(ref_path, "r", encoding="latin-1") as file:
                     ref_content = file.read()
@@ -243,6 +246,7 @@ def update_changed_resources(
                 with open(target_path, "w", encoding="utf-8-sig") as file:
                     for line in serialize_resource(res):
                         file.write(line)
+                log.info(f"{lc_scope} Successfully wrote translations to {target_path}")
                 updated_locales.add(locale)
                 for tx in lc_translations:
                     if tx.approved and tx.entity in changed_entities and tx.user:
