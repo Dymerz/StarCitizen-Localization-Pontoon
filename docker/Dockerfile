@@ -76,10 +76,9 @@ RUN sed -e "s/#SITE_URL#/http:\/\/localhost:8000/g" \
 RUN npm run build:prod
 RUN python manage.py collectstatic
 
-# Remove .gz files from static files
+# Remove .gz files from static files and manifest.json
 RUN find static -name "*.gz" -type f -delete
-
-RUN chmod -R 755 /app
+RUN rm /app/static/manifest.json
 
 COPY --chown=pontoon:pontoon ssh /home/pontoon/.ssh
 RUN chmod 700 /home/pontoon/.ssh && \
